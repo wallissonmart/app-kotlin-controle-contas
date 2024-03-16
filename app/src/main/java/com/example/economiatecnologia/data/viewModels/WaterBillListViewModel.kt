@@ -19,12 +19,12 @@ class WaterBillListViewModel(private val waterBillRepository: WaterBillRepositor
 
     fun getAll() {
         viewModelScope.launch(Dispatchers.IO) {
-            val energyBillsList = waterBillRepository.getAllWaterBill()
-            _waterBills.postValue(energyBillsList)
+            val waterBillsList = waterBillRepository.getAllWaterBill()
+            _waterBills.postValue(waterBillsList)
         }
     }
 
-    fun insertEnergyBill(value: Double, date: String) {
+    fun insertWaterBill(value: Double, date: String) {
         viewModelScope.launch(Dispatchers.IO) {
             waterBillRepository.insertWaterBill(value, date)
             getAll()
