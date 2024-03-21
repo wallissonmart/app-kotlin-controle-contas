@@ -13,6 +13,18 @@ class EnergyBillRepository(private val energyBillDao: EnergyBillDao) : EnergyBil
         energyBillDao.insertEnergyBill(energyBill)
     }
 
+    override suspend fun deleteEnergyBill(existingId: Long) {
+        val energyBillToDelete = energyBillDao.getEnergyBillById(existingId)
+
+        return energyBillDao.deleteEnergyBill(energyBillToDelete)
+    }
+
+    override suspend fun editEnergyBill(existingId: Long, newValue: Double, newDate: String) {
+        val energyBillToUpdate = EnergyBillEntity(id = existingId, value = newValue, date = newDate)
+
+        return energyBillDao.editEnergyBill(energyBillToUpdate)
+    }
+
     override suspend fun getAllEnergyBill(): List<EnergyBillEntity> {
         return energyBillDao.getAllEnergyBills()
     }

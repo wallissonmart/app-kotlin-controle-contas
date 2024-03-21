@@ -1,8 +1,10 @@
 package com.example.economiatecnologia.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.economiatecnologia.data.local.entity.EnergyBillEntity
 
 @Dao
@@ -13,4 +15,13 @@ interface EnergyBillDao {
 
     @Insert
     suspend fun insertEnergyBill(energyBill: EnergyBillEntity)
+
+    @Delete
+    suspend fun deleteEnergyBill(energyBill: EnergyBillEntity)
+
+    @Update
+    suspend fun editEnergyBill(energyBill: EnergyBillEntity)
+
+    @Query("SELECT * FROM energy_bills WHERE id = :id")
+    suspend fun getEnergyBillById(id: Long): EnergyBillEntity
 }

@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.economiatecnologia.R
+import com.example.economiatecnologia.data.local.entity.EnergyBillEntity
 import com.example.economiatecnologia.data.viewModels.EnergyBillListViewModel
 import com.example.economiatecnologia.ui.adapters.EnergyBillListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class EnergyBillListFragment : Fragment(), AddBillDialogFragment.AddBillListener {
+class EnergyBillListFragment : Fragment(), AddBillDialogFragment.AddBillListener,
+    EditBillDialogFragment.UpdateBillListener, EnergyBillListAdapter.EditIconClickListener {
 
     private lateinit var energyBillListViewModel: EnergyBillListViewModel
     private lateinit var energyBillAdapter: EnergyBillListAdapter
@@ -37,6 +39,8 @@ class EnergyBillListFragment : Fragment(), AddBillDialogFragment.AddBillListener
         energyBillAdapter = EnergyBillListAdapter(emptyList())
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = energyBillAdapter
+
+        energyBillAdapter.setOnEditIconClickListener(this)
     }
 
     private fun setupAddBillButton(view: View) {
@@ -50,6 +54,12 @@ class EnergyBillListFragment : Fragment(), AddBillDialogFragment.AddBillListener
         val dialogFragment = AddBillDialogFragment()
         dialogFragment.setAddBillListener(this)
         dialogFragment.show(requireActivity().supportFragmentManager, "AddBillDialog")
+    }
+
+    private fun showEditBillDialog(item: EnergyBillEntity) {
+        val dialogFragment = EditBillDialogFragment(item.id, item.value, item.date)
+        dialogFragment.setUpdateBillListener(this)
+        dialogFragment.show(requireActivity().supportFragmentManager, "EditBillDialog")
     }
 
     private fun setupViewModel() {
@@ -69,5 +79,13 @@ class EnergyBillListFragment : Fragment(), AddBillDialogFragment.AddBillListener
 
     override fun onBillAdded(value: Double, date: String) {
         energyBillListViewModel.insertEnergyBill(value, date)
+    }
+
+    override fun onBillUpdated(id: Long, value: Double, date: String) {
+        energyBillListViewModel.editEnergyBill(id, value, date)
+    }
+
+    override fun onEditIconClick(energyBill: EnergyBillEntity) {
+       println("oneditclick")
     }
 }

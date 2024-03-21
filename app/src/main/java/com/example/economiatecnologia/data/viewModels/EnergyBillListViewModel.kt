@@ -32,6 +32,13 @@ class EnergyBillListViewModel(private val energyBillRepository: EnergyBillReposi
         }
     }
 
+    fun editEnergyBill(id: Long, value: Double, date: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            energyBillRepository.editEnergyBill(id, value, date)
+            getAll()
+        }
+    }
+
     @Suppress("UNCHECKED_CAST")
     companion object {
         fun createFactory(context: Context): ViewModelProvider.Factory {
