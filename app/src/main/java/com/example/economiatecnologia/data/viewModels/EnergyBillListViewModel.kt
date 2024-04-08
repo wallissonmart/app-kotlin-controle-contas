@@ -39,6 +39,13 @@ class EnergyBillListViewModel(private val energyBillRepository: EnergyBillReposi
         }
     }
 
+    fun deleteEnergyBill(id: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            energyBillRepository.deleteEnergyBill(id)
+            getAll()
+        }
+    }
+
     @Suppress("UNCHECKED_CAST")
     companion object {
         fun createFactory(context: Context): ViewModelProvider.Factory {

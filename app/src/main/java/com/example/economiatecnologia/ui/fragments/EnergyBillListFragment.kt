@@ -15,7 +15,8 @@ import com.example.economiatecnologia.ui.adapters.EnergyBillListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class EnergyBillListFragment : Fragment(), AddBillDialogFragment.AddBillListener,
-    EditBillDialogFragment.UpdateBillListener, EnergyBillListAdapter.EditIconClickListener {
+    EditBillDialogFragment.UpdateBillListener, DeleteBillDialogFragment.DeleteBillListener,
+    EnergyBillListAdapter.EditIconClickListener, EnergyBillListAdapter.DeleteIconClickListener {
 
     private lateinit var energyBillListViewModel: EnergyBillListViewModel
     private lateinit var energyBillAdapter: EnergyBillListAdapter
@@ -41,6 +42,7 @@ class EnergyBillListFragment : Fragment(), AddBillDialogFragment.AddBillListener
         recyclerView.adapter = energyBillAdapter
 
         energyBillAdapter.setOnEditIconClickListener(this)
+        energyBillAdapter.setOnDeleteIconClickListener(this)
     }
 
     private fun setupAddBillButton(view: View) {
@@ -60,6 +62,12 @@ class EnergyBillListFragment : Fragment(), AddBillDialogFragment.AddBillListener
         val dialogFragment = EditBillDialogFragment(item.id, item.value, item.date)
         dialogFragment.setUpdateBillListener(this)
         dialogFragment.show(requireActivity().supportFragmentManager, "EditBillDialog")
+    }
+
+    private fun showDeleteBillDialog(id: Long) {
+        val dialogFragment = DeleteBillDialogFragment(id)
+        dialogFragment.setDeleteBillListener(this)
+        dialogFragment.show(requireActivity().supportFragmentManager, "DeleteBillDialog")
     }
 
     private fun setupViewModel() {
@@ -85,7 +93,15 @@ class EnergyBillListFragment : Fragment(), AddBillDialogFragment.AddBillListener
         energyBillListViewModel.editEnergyBill(id, value, date)
     }
 
+    override fun onBillDeleted(id: Long) {
+        energyBillListViewModel.deleteEnergyBill(id)
+    }
+
     override fun onEditIconClick(energyBill: EnergyBillEntity) {
-       println("oneditclick")
+        showEditBillDialog(energyBill)
+    }
+
+    override fun onDeleteIconClick(id: Long) {
+        showDeleteBillDialog(id)
     }
 }

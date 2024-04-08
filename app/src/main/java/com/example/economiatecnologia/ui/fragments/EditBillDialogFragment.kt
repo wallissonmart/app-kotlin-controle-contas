@@ -21,20 +21,21 @@ class EditBillDialogFragment(private val existingId: Long, private val oldValue:
             val inflater = requireActivity().layoutInflater
             val view = inflater.inflate(R.layout.fragment_edit_bill_dialog, null)
 
+            val hasOnlyNumberAfterDecimalPoint = oldValue.toString().split(".")[1].length == 1
+
             val editTextValue: EditText = view.findViewById(R.id.editTextValue)
             editTextValue.addTextChangedListener(DecimalInputTextWatcher(editTextValue))
-            editTextValue.setText(oldValue.toString())
+            editTextValue.setText(if (hasOnlyNumberAfterDecimalPoint) oldValue.toString() + "0" else oldValue.toString())
 
             val editTextDate = view.findViewById<EditText>(R.id.editTextDate)
             editTextDate.setText(oldDate)
 
             builder.setView(view)
-                .setTitle("Adicionar nova conta")
-                .setPositiveButton("Adicionar") { _, _ ->
+                .setTitle("Editar conta")
+                .setPositiveButton("Editar") { _, _ ->
                     val valueText = editTextValue.text.toString()
-                    val cleanedValueText = valueText.replace("[^\\d.]".toRegex(), "")
-                    val value = cleanedValueText.toDoubleOrNull() ?: 0.0
-                    val newValue = value / 100.0
+                    val cleanedValueText = valueText.replace("[^\\d,]".toRegex(), "")
+                    val newValue = cleanedValueText.replace(",", ".").toDoubleOrNull() ?: 0.0
                     val newDate = editTextDate.text.toString()
 
                     listener?.onBillUpdated(existingId, newValue, newDate)
