@@ -35,10 +35,15 @@ class AddBillDialogFragment : DialogFragment() {
                     val date = editTextDate.text.toString()
 
                     if (date.isEmpty() || value == 0.0) {
-                        Toast.makeText(requireContext(), "Nenhum dos campos pode ser vazio", Toast.LENGTH_SHORT).show()
-                    } else {
-                        listener?.onBillAdded(value, date)
+                        Toast.makeText(
+                            requireContext(),
+                            "Nenhum dos campos pode ser vazio",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@setPositiveButton
                     }
+
+                    listener?.onBillAdded(value, date)
                 }
                 .setNegativeButton("Cancelar") { _, _ ->
                     dialog?.cancel()

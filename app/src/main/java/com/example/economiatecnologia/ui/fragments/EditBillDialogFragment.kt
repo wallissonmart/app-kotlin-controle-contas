@@ -5,10 +5,15 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.economiatecnologia.R
 
-class EditBillDialogFragment(private val existingId: Long, private val oldValue: Double, private val oldDate: String) : DialogFragment() {
+class EditBillDialogFragment(
+    private val existingId: Long,
+    private val oldValue: Double,
+    private val oldDate: String
+) : DialogFragment() {
     interface UpdateBillListener {
         fun onBillUpdated(id: Long, value: Double, date: String)
     }
@@ -37,6 +42,15 @@ class EditBillDialogFragment(private val existingId: Long, private val oldValue:
                     val cleanedValueText = valueText.replace("[^\\d,]".toRegex(), "")
                     val newValue = cleanedValueText.replace(",", ".").toDoubleOrNull() ?: 0.0
                     val newDate = editTextDate.text.toString()
+
+                    if (newDate.isEmpty() || newValue == 0.0) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Nenhum dos campos pode ser vazio",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@setPositiveButton
+                    }
 
                     listener?.onBillUpdated(existingId, newValue, newDate)
                 }

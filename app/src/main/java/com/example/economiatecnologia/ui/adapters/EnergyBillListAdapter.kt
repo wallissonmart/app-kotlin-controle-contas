@@ -12,8 +12,6 @@ import com.example.economiatecnologia.util.CurrencyFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.NumberFormat
-import java.util.Locale
 
 class EnergyBillListAdapter(private var energyBills: List<EnergyBillEntity>) :
     RecyclerView.Adapter<EnergyBillListAdapter.ViewHolder>() {

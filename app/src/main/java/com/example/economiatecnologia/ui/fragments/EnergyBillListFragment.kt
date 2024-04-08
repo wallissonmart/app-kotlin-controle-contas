@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.economiatecnologia.R
@@ -21,6 +22,7 @@ class EnergyBillListFragment : Fragment(), AddBillDialogFragment.AddBillListener
     private lateinit var energyBillListViewModel: EnergyBillListViewModel
     private lateinit var energyBillAdapter: EnergyBillListAdapter
     private lateinit var fabAddBill: FloatingActionButton
+    private lateinit var messageListEmpty: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,6 +83,7 @@ class EnergyBillListFragment : Fragment(), AddBillDialogFragment.AddBillListener
         energyBillListViewModel.energyBills.observe(viewLifecycleOwner) { energyBills ->
             energyBills?.let {
                 energyBillAdapter.updateData(it)
+                showMessageListEmpty(it.size)
             }
         }
     }
@@ -103,5 +106,18 @@ class EnergyBillListFragment : Fragment(), AddBillDialogFragment.AddBillListener
 
     override fun onDeleteIconClick(id: Long) {
         showDeleteBillDialog(id)
+    }
+
+    private fun showMessageListEmpty(listSize: Int) {
+        messageListEmpty = requireView().findViewById(R.id.messageListEnergyEmpty)
+
+        if (listSize == 0) {
+            messageListEmpty.visibility = View.VISIBLE
+            return
+        }
+
+        if (listSize >= 1) {
+            messageListEmpty.visibility = View.INVISIBLE
+        }
     }
 }

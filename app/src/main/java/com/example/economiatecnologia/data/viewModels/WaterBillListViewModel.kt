@@ -31,6 +31,20 @@ class WaterBillListViewModel(private val waterBillRepository: WaterBillRepositor
         }
     }
 
+    fun editWaterBill(id: Long, value: Double, date: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            waterBillRepository.editWaterBill(id, value, date)
+            getAll()
+        }
+    }
+
+    fun deleteWaterBill(id: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            waterBillRepository.deleteWaterBill(id)
+            getAll()
+        }
+    }
+
     @Suppress("UNCHECKED_CAST")
     companion object {
         fun createFactory(context: Context): ViewModelProvider.Factory {

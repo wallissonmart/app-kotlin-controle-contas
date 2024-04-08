@@ -13,6 +13,18 @@ class WaterBillRepository(private val waterBillDao: WaterBillDao) : WaterBillRep
         waterBillDao.insertWaterBill(waterBill)
     }
 
+    override suspend fun deleteWaterBill(existingId: Long) {
+        val waterBillToDelete = waterBillDao.getWaterBillById(existingId)
+
+        return waterBillDao.deleteWaterBill(waterBillToDelete)
+    }
+
+    override suspend fun editWaterBill(existingId: Long, newValue: Double, newDate: String) {
+        val waterBillToUpdate = WaterBillEntity(id = existingId, value = newValue, date = newDate)
+
+        return waterBillDao.editWaterBill(waterBillToUpdate)
+    }
+
     override suspend fun getAllWaterBill(): List<WaterBillEntity> {
         return waterBillDao.getAllWaterBills()
     }

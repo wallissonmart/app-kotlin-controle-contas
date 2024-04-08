@@ -15,10 +15,22 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddWaterBill"
+        style="@style/MyFloatingActionButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add_24" />
+
+    <TextView
+        android:id="@+id/messageListWaterEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingHorizontal="20dp"
+        android:text="Nenhuma conta de água registrada"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        android:visibility="invisible" />
 
 </FrameLayout>
