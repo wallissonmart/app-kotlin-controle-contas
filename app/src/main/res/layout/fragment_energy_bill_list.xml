@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingHorizontal="20dp"
-        android:text="Nenhuma conta de água registrada"
+        android:text="Nenhuma conta de energia registrada"
         android:textAlignment="center"
         android:textSize="22sp"
         android:visibility="invisible" />
