@@ -5,9 +5,9 @@ import java.util.Locale
 
 class CurrencyFormatter {
     companion object {
-        fun formatCurrency(value: Double): String {
+        fun formatCurrency(val: Double): String {
             val format = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
-            return format.format(value)
+            return format.format(val)
         }
     }
 }
